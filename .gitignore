@@ -1,0 +1,17 @@
+# IDE
+.vscode
+
+# executables
+webserv
+
+# objects and dependencies
+**/dep/*
+**/obj/*
+*.d
+*.o
+*.a
+
+# tests
+
+# trash
+.DS_store
