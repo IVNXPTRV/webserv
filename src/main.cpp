@@ -1,25 +1,7 @@
-
-#include <cstdlib>
 #include <string>
+int webserv(const std::string filename);
 
-#include "Server.hpp"
-
-Server server = Server::getServer();
-Router router = Server::getRouter();
-
-using namespace std;
-
-int webserv(char *argv[]) {
-  string filename = getFilename(argv);
-
-  server.init(filename);
-  server.start();
-  server.destroy();
-
-  return EXIT_SUCCESS;
-}
-
-int main(int argc, char *argv[]) {
+int main(const int argc, const char *argv[]) {
   (void)argc;
-  return webserv(argv);
+  return webserv(*(argv + 1));
 }

@@ -1,29 +1,34 @@
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
-#include <list>
+#include <Router.hpp>
+#include <map>
 #include <string>
+#include <vector>
 
 using namespace std;
-class Stream;
-class Router;
 
-typedef list<Stream*> Streams;
+class Stream;
+typedef map<Stream*, Stream*> StreamsMap;
+typedef vector<Stream*> StreamsBatch;
 
 class Server {
  private:
   Router _router;
-  Streams _streams;
+  StreamsMap _streams;
 
  private:
   Server();
-  void poll();
+  StreamsBatch
+  poll();  // return set of streams with events in it; read, write event
 
  public:
   static Server& getServer();
   static Router& getRouter();
 
-  void init(string filename);  // init router and streams
+  void init(const string filename);  // init router and streams
+  void addStream(const Stream*);
+  void deleteStream(const Stream*);
   void start();
   void destroy();  // delete all streams and router
 };
