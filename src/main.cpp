@@ -1,12 +1,25 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.go                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vvoronts <vvoronts@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/19 15:46:49 by vvoronts          #+#    #+#             */
-/*   Updated: 2025/12/19 15:49:34 by vvoronts         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
+#include <cstdlib>
+#include <string>
+
+#include "Server.hpp"
+
+Server server = Server::getServer();
+Router router = Server::getRouter();
+
+using namespace std;
+
+int webserv(char *argv[]) {
+  string filename = getFilename(argv);
+
+  server.init(filename);
+  server.start();
+  server.destroy();
+
+  return EXIT_SUCCESS;
+}
+
+int main(int argc, char *argv[]) {
+  (void)argc;
+  return webserv(argv);
+}
