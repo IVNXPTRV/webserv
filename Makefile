@@ -32,6 +32,9 @@ INCLUDE_DIRS		=	\
 # Source files
 SRC 				= \
 						main.cpp \
+						Socket.cpp \
+						Client.cpp \
+						ServerManager.cpp \
 
 # Object and Dependency files
 OBJ					= $(SRC:%.cpp=obj/%.o)
