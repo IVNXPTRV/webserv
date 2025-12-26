@@ -1,0 +1,63 @@
+-----------------------------------------------------------------------------
+Core 
+-----------------------------------------------------------------------------
+
+config             = { ws } { http_block | server_block } { ws } ;
+http_block         = "http" { ws } "{" { http_content } "}" ;
+http_content       = { ws } ( http_directive | server_block ) { ws } ;
+server_block       = "server" { ws } "{" { server_content } "}" ;
+server_content     = { ws } ( server_directive | location_block ) { ws } ;
+location_block     = "location" { ws } uri { ws } "{" { location_content } "}" ;
+location_content   = { ws } ( location_directive | location_block ) { ws } ;
+
+-----------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------
+http_directive     = common_directive ;
+
+server_directive   = common_directive 
+                   | listen_directive 
+                   | server_name_directive ;
+
+location_directive = common_directive 
+                   | alias_directive 
+                   | methods_directive 
+                   | return_directive 
+                   | upload_directive 
+                   | cgi_directive ;
+
+common_directive   = root_directive 
+                   | index_directive 
+                   | error_page_directive 
+                   | client_max_body_size_directive 
+                   | autoindex_directive ;
+
+-----------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------
+listen_directive      = "listen" ws ( port | host_port ) ";" ;
+server_name_directive = "server_name" ws { string } ";" ;
+root_directive        = "root" ws path ";" ;
+alias_directive       = "alias" ws path ";" ;
+index_directive       = "index" ws { string } ";" ;
+error_page_directive  = "error_page" ws code { code } ws path ";" ;
+client_body_limit     = "client_max_body_size" ws size ";" ;
+autoindex_directive   = "autoindex" ws ( "on" | "off" ) ";" ;
+methods_directive     = "accepted_methods" ws { "GET" | "POST" | "DELETE" } ";" ;
+return_directive      = "return" ws code [ ws string ] ";" ;
+upload_directive      = "upload_store" ws path ";" ;
+cgi_directive         = "cgi_pass" ws path ";" 
+                      | "cgi_extension" ws string ";" ;
+
+-----------------------------------------------------------------------------
+Terminals
+-----------------------------------------------------------------------------
+ws      = { " " | "\t" | "\n" | "\r" } ;
+uri     = string ;
+path    = string ;
+port    = digit { digit } ;
+host_port = string ":" port ;
+code    = digit digit digit ;
+size    = digit { digit } [ "k" | "m" | "g" ] ;
+string  = character { character } ;
+digit   = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
